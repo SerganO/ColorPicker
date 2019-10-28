@@ -10,6 +10,7 @@ import SwiftUI
 
 struct ContentView: View {
     @State var color = Color.black
+    @State var colors: [[Color]] = [[]]
     var body: some View {
         VStack {
             HStack {
@@ -18,12 +19,23 @@ struct ContentView: View {
                     .foregroundColor(color)
             }
             .padding()
-            Pallete(parentColor: $color)
+            Pallete(parentColor: $color, colors: getColors())
             //Pallete(rowCount: 6, parentColor: $color)
             //Pallete(rowCount: 5, collumCount: 7, parentColor: $color)
             //Pallete(rowCount: 20, collumCount: 22, elementSize: 40, parentColor: $color)
             Spacer()
         }
+    }
+    
+    func getColors() -> [[Color]] {
+        var colors = [[Color]]()
+        for i in 0..<9 {
+            colors.append([])
+            for _ in 0..<13 {
+                colors[i].append(Color(red: Double.random(in: 0..<1), green: Double.random(in: 0..<1),blue: Double.random(in: 0..<1)))
+            }
+        }
+        return colors
     }
 }
 
@@ -34,13 +46,19 @@ struct ContentView_Previews: PreviewProvider {
 }
 
 struct Pallete: View {
-    @State var rowCount = 9
-    @State var collumCount = 13
-    @State var elementSize: CGFloat = 20
     @Binding var parentColor: Color
-    @State var point: CGPoint = CGPoint(x: 0, y: 0)
-    @State var elements = [PalleteElement]()
-    @State var colorHandler = ColorHandler()
+    
+    @State var lastCheckedX = -1
+    @State var lastCheckedY = -1
+    @State var colors: [[Color]] = [[]]
+    @State var elementSize: CGFloat = 20
+    
+    var rowCount: Int {
+        colors.count
+    }
+    var collumCount: Int {
+        colors.first?.count ?? 0
+    }
     
     var body: some View {
         VStack(spacing: 0) {
@@ -55,93 +73,52 @@ struct Pallete: View {
         .gesture(
             DragGesture()
                 .onChanged({ value in
-                    self.parentColor = self.colorHandler.getColorFromPoint(point: value.location)
+                    self.parentColor = self.getColorFromPoint(point: value.location)
                 })
         )
     }
     
+    func getColorFromPoint(point: CGPoint) -> Color{
+        var f = Int(point.x / elementSize)
+        var s = Int(point.y / elementSize)
+        if(f < 0) {f = 0}
+        if(f > collumCount - 1) {f = collumCount - 1}
+        if(s < 0) {s = 0}
+        if(s > rowCount - 1) {s = rowCount - 1}
+        lastCheckedX = s
+        lastCheckedY = f
+        return colors[s][f]
+    }
+    
     func makeElem(i: Int, j: Int) -> PalleteElement {
-        colorHandler.rowCount = rowCount
-        colorHandler.collumCount = collumCount
-        colorHandler.elementSize = elementSize
-        let color = colorHandler.colors[i][j]
-        return PalleteElement(i: i, j: j, colorHandler: $colorHandler, color: color, parentColor: $parentColor, size: $elementSize)
-        //return PalleteElement(i:i, j:j, colorHandler: $colorHandler, size: $elementSize, color:color, parentColor: self.$parentColor)
+        let color = colors[i][j]
+        return PalleteElement(parentColor: $parentColor, lastCheckedX: $lastCheckedX, lastCheckedY: $lastCheckedY,color: color, size: elementSize, i: i, j: j)
     }
     
     struct PalleteElement: View {
-        @State var i = 0
-        @State var j = 0
-        @Binding var colorHandler: ColorHandler
-
-        var selected: Bool {
-            return i == colorHandler.lastCheckedX && j == colorHandler.lastCheckedY
-        }
-        @State var color = Color.black
         @Binding var parentColor: Color
-        @Binding var size: CGFloat
+        @Binding var lastCheckedX: Int
+        @Binding var lastCheckedY: Int
+        
+        @State var color = Color.black
+        @State var size: CGFloat
+        @State var i: Int
+        @State var j: Int
+       
         var body: some View {
             Rectangle().frame(minWidth: size, idealWidth: size, maxWidth: size, minHeight: size, idealHeight: size, maxHeight: size, alignment: .center)
-                .border(Color.white, width: selected ? 5: 0)
+                .border(Color.black, width: 1)
+                .border(Color.white, width: i == lastCheckedX && j == lastCheckedY ? 5: 0)
                 .foregroundColor(color)
                 .gesture(
                     TapGesture()
                         .onEnded({ _ in
                             self.parentColor = self.color
-                            self.colorHandler.lastCheckedX = self.i
-                            self.colorHandler.lastCheckedY = self.j
+                            self.lastCheckedX = self.i
+                            self.lastCheckedY = self.j
                         })
             )
         }
     }
     
-    class ColorHandler {
-        var rowCount: Int
-        var collumCount: Int
-        var elementSize: CGFloat
-        var lastCheckedX = -1
-        var lastCheckedY = -1
-        
-        init() {
-            self.rowCount = 0
-            self.collumCount = 0
-            self.elementSize = 1
-        }
-        
-        init(rowCount: Int, collumnCount: Int, elementSize: CGFloat) {
-            self.rowCount = rowCount
-            self.collumCount = collumnCount
-            self.elementSize = elementSize
-        }
-        
-        private var _colors = [[Color]]()
-        
-        var colors : [[Color]]
-        {
-            if _colors.count == 0 {
-                var color = [[Color]]()
-                for i in 0..<rowCount {
-                    color.append([])
-                    for _ in 0..<collumCount {
-                        color[i].append(Color(red: Double.random(in: 0..<1), green: Double.random(in: 0..<1),blue: Double.random(in: 0..<1)))
-                    }
-                }
-                _colors = color
-            }
-            return _colors
-        }
-        
-        func getColorFromPoint(point: CGPoint) -> Color{
-            var f = Int(point.x / elementSize)
-            var s = Int(point.y / elementSize)
-            if(f < 0) {f = 0}
-            if(f > collumCount - 1) {f = collumCount - 1}
-            if(s < 0) {s = 0}
-            if(s > rowCount - 1) {s = rowCount - 1}
-            lastCheckedX = s
-            lastCheckedY = f
-            return colors[s][f]
-        }
-        
-    }
 }
