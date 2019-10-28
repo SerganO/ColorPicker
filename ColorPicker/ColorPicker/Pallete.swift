@@ -44,10 +44,10 @@ struct Pallete: View {
     func getColorFromPoint(point: CGPoint) -> Color{
         var firstIndex = Int(point.x / elementSize)
         var secondIndex = Int(point.y / elementSize)
-        if(firstIndex < 0) {firstIndex = 0}
-        if(firstIndex > collumCount - 1) {firstIndex = collumCount - 1}
-        if(secondIndex < 0) {secondIndex = 0}
-        if(secondIndex > rowCount - 1) {secondIndex = rowCount - 1}
+        if firstIndex < 0 {firstIndex = 0}
+        if firstIndex > (collumCount - 1) {firstIndex = collumCount - 1}
+        if secondIndex < 0 {secondIndex = 0}
+        if secondIndex > (rowCount - 1) {secondIndex = rowCount - 1}
         lastCheckedX = secondIndex
         lastCheckedY = firstIndex
         return colors[secondIndex][firstIndex]

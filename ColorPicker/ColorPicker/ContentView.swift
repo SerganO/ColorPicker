@@ -16,8 +16,7 @@ struct ContentView: View {
         VStack {
             HStack {
                 Text("Selected color: ")
-                Rectangle().frame(maxHeight: 30)
-                    .foregroundColor(color)
+                color.frame(maxHeight: 30)
             }
             .padding()
             Pallete(parentColor: $color, colors: getColors(),elementSize: 50)
