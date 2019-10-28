@@ -7,6 +7,7 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		FE492FA2236727C2005368C8 /* Pallete.swift in Sources */ = {isa = PBXBuildFile; fileRef = FE492FA1236727C2005368C8 /* Pallete.swift */; };
 		FEA719C52362FD23009A2E85 /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = FEA719C42362FD23009A2E85 /* AppDelegate.swift */; };
 		FEA719C72362FD23009A2E85 /* SceneDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = FEA719C62362FD23009A2E85 /* SceneDelegate.swift */; };
 		FEA719C92362FD23009A2E85 /* ContentView.swift in Sources */ = {isa = PBXBuildFile; fileRef = FEA719C82362FD23009A2E85 /* ContentView.swift */; };
@@ -36,6 +37,7 @@
 
 /* Begin PBXFileReference section */
 		FE492F9F2366FA35005368C8 /* ColorPicker.entitlements */ = {isa = PBXFileReference; lastKnownFileType = text.plist.entitlements; path = ColorPicker.entitlements; sourceTree = "<group>"; };
+		FE492FA1236727C2005368C8 /* Pallete.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Pallete.swift; sourceTree = "<group>"; };
 		FEA719C12362FD23009A2E85 /* ColorPicker.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = ColorPicker.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		FEA719C42362FD23009A2E85 /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
 		FEA719C62362FD23009A2E85 /* SceneDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SceneDelegate.swift; sourceTree = "<group>"; };
@@ -108,6 +110,7 @@
 				FEA719CF2362FD25009A2E85 /* LaunchScreen.storyboard */,
 				FEA719D22362FD25009A2E85 /* Info.plist */,
 				FEA719CC2362FD25009A2E85 /* Preview Content */,
+				FE492FA1236727C2005368C8 /* Pallete.swift */,
 			);
 			path = ColorPicker;
 			sourceTree = "<group>";
@@ -272,6 +275,7 @@
 				FEA719C52362FD23009A2E85 /* AppDelegate.swift in Sources */,
 				FEA719C72362FD23009A2E85 /* SceneDelegate.swift in Sources */,
 				FEA719C92362FD23009A2E85 /* ContentView.swift in Sources */,
+				FE492FA2236727C2005368C8 /* Pallete.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
