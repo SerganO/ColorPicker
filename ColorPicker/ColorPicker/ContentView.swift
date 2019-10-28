@@ -11,6 +11,7 @@ import SwiftUI
 struct ContentView: View {
     @State var color = Color.black
     @State var colors: [[Color]] = [[]]
+    
     var body: some View {
         VStack {
             HStack {
@@ -20,9 +21,6 @@ struct ContentView: View {
             }
             .padding()
             Pallete(parentColor: $color, colors: getColors())
-            //Pallete(rowCount: 6, parentColor: $color)
-            //Pallete(rowCount: 5, collumCount: 7, parentColor: $color)
-            //Pallete(rowCount: 20, collumCount: 22, elementSize: 40, parentColor: $color)
             Spacer()
         }
     }
@@ -47,10 +45,10 @@ struct ContentView_Previews: PreviewProvider {
 
 struct Pallete: View {
     @Binding var parentColor: Color
+    @State var colors: [[Color]] = [[]]
     
     @State var lastCheckedX = -1
     @State var lastCheckedY = -1
-    @State var colors: [[Color]] = [[]]
     @State var elementSize: CGFloat = 20
     
     var rowCount: Int {
